@@ -1,5 +1,6 @@
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import TrebolIcon from "../ui/logo"
 
 interface TreblyWithdrawSuccessProps {
   onContinue: () => void
@@ -10,9 +11,7 @@ export default function TreblyWithdrawSuccess({ onContinue }: TreblyWithdrawSucc
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4">
       <div className="w-full max-w-md space-y-8 text-center">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-            <div className="w-12 h-12 bg-gray-900 rounded-full"></div>
-          </div>
+          <TrebolIcon />
           <h1 className="text-2xl font-bold">Trebly</h1>
         </div>
 

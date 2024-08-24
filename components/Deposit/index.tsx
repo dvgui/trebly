@@ -3,7 +3,8 @@ import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
-import TreblySuccess from "../Success"
+import TreblySuccess from "../DepositSuccess"
+import TrebolIcon from "../ui/logo"
 
 interface TreblyDepositProps {
   balance: number
@@ -60,9 +61,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
 
       <main className="flex-grow flex flex-col items-center justify-center space-y-8">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-            <div className="w-12 h-12 bg-gray-900 rounded-full"></div>
-          </div>
+          <TrebolIcon />
           <h1 className="text-2xl font-bold">Trebly</h1>
         </div>
 

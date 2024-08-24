@@ -2,6 +2,7 @@ import { useState } from "react"
 import { ArrowLeft, DollarSign } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import TreblyWithdrawSuccess from "../WithdrawSuccess"
+import TrebolIcon from "../ui/logo"
 
 interface TreblyWithdrawProps {
   totalDeposited: number
@@ -31,9 +32,7 @@ export default function TreblyWithdraw({ totalDeposited, onWithdraw, onBack }: T
 
       <main className="flex-grow flex flex-col items-center justify-center space-y-8">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-            <div className="w-12 h-12 bg-gray-900 rounded-full"></div>
-          </div>
+          <TrebolIcon />
           <h1 className="text-2xl font-bold">Trebly</h1>
         </div>
 
