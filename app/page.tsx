@@ -1,4 +1,5 @@
 import { PayBlock } from "@/components/Pay";
+import Main from "@/components/screens/Main";
 import { SignIn } from "@/components/SignIn";
 import { VerifyBlock } from "@/components/Verify";
 
