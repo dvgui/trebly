@@ -3,19 +3,49 @@ import { ArrowLeft, DollarSign } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import TreblyWithdrawSuccess from "../WithdrawSuccess"
 import TrebolIcon from "../ui/logo"
+import UsdcIcon from "../ui/usdc"
+import { Input } from "../ui/input"
+import { toast } from "../ui/use-toast"
 
 interface TreblyWithdrawProps {
-  totalDeposited: number
-  onWithdraw: () => Promise<void>
+  balance: number
+  onWithdraw: (amount: number) => Promise<void>
   onBack: () => void
 }
 
-export default function TreblyWithdraw({ totalDeposited, onWithdraw, onBack }: TreblyWithdrawProps) {
+export default function TreblyWithdraw({ balance, onWithdraw, onBack }: TreblyWithdrawProps) {
   const [showSuccess, setShowSuccess] = useState(false)
+  const [isWithdraw, setIsWithdraw] = useState(false)
+  const [withdrawAmount, setWithdrawAmount] = useState("")
+
+  const handleMaxClick = () => {
+    setWithdrawAmount(balance.toString())
+  }
 
   const handleWithdraw = async () => {
-    await onWithdraw()
-    setShowSuccess(true)
+    const amount = parseFloat(withdrawAmount)
+    if (isNaN(amount) || amount <= 0 || amount > balance) {
+      toast({
+        title: "Invalid amount",
+        description: "Please enter a valid amount to deposit.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setIsWithdraw(true)
+    try {
+      await onWithdraw(amount)
+      setShowSuccess(true)
+    } catch (error) {
+      toast({
+        title: "Deposit failed",
+        description: "There was an error processing your deposit. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsWithdraw(false)
+    }
   }
 
   if (showSuccess) {
@@ -41,11 +71,32 @@ export default function TreblyWithdraw({ totalDeposited, onWithdraw, onBack }: T
             Total deposited in Trebly
           </h2>
 
-          <div className="bg-gray-800 rounded-full py-3 px-6 flex items-center justify-center space-x-4">
-            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-              <DollarSign className="h-6 w-6 text-white" />
+          <div className="relative">
+            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <UsdcIcon className="h-6 w-6" />
             </div>
-            <span className="text-2xl font-bold">{totalDeposited} WLD</span>
+            <Input
+              type="number"
+              value={withdrawAmount}
+              onChange={(e) => setWithdrawAmount(e.target.value)}
+              className="w-full pl-12 pr-24 py-6 bg-gray-800 border-green-500 rounded-full text-xl"
+              placeholder="0 WLD"
+              min="0"
+              max={balance}
+              step="0.1"
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              <Button 
+                className="h-full px-6 rounded-r-full bg-green-500 text-gray-900 hover:bg-green-600"
+                onClick={handleMaxClick}
+              >
+                MAX
+              </Button>
+            </div>
+          </div>
+
+          <div className="text-center text-gray-400">
+            Balance: {balance} WLD
           </div>
 
           <Button 

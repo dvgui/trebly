@@ -32,7 +32,7 @@ export default function TreblyDepositSuccess({ onContinue }: TreblySuccessProps)
           onClick={onContinue}
           className="w-full py-6 text-xl bg-green-500 text-gray-900 rounded-full hover:bg-green-600"
         >
-          Continue
+          Back to Menu
         </Button>
       </div>
     </div>

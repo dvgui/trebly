@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import TreblySuccess from "../DepositSuccess"
 import TrebolIcon from "../ui/logo"
+import WorldcoinIcon from "../ui/wordlcoin"
+import { Label } from "../ui/label"
+import { Slider } from "../ui/slider"
 
 interface TreblyDepositProps {
   balance: number
@@ -16,6 +19,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
   const [depositAmount, setDepositAmount] = useState("")
   const [isDepositing, setIsDepositing] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [donatePercentage, setDonatePercentaje] = useState(0)
 
   const handleMaxClick = () => {
     setDepositAmount(balance.toString())
@@ -47,6 +51,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
     }
   }
 
+  
   if (showSuccess) {
     return <TreblySuccess onContinue={onBack} />
   }
@@ -72,9 +77,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
 
           <div className="relative">
             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-              <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-                <div className="w-4 h-4 bg-gray-900 rounded-full"></div>
-              </div>
+              <WorldcoinIcon className="h-6 w-6 bg-white  rounded-full"/>
             </div>
             <Input
               type="number"
@@ -84,7 +87,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
               placeholder="0 WLD"
               min="0"
               max={balance}
-              step="0.01"
+              step="0.1"
             />
             <div className="absolute inset-y-0 right-0 flex items-center">
               <Button 
@@ -100,6 +103,22 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
             Balance: {balance} WLD
           </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="donate" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              Donate {donatePercentage}%
+              </Label>
+              <div className="bg-white p-2 rounded-lg shadow-md">
+                <Slider
+                  id="donate"
+                  min={0}
+                  max={20}
+                  step={1}
+                  value={[donatePercentage]}
+                  onValueChange={(value: any) => setDonatePercentaje(value[0])}
+                  className="[&_[role=slider]]:bg-green-500"
+                />
+              </div>
+          </div>
           <Button 
             className="w-full py-6 text-xl bg-green-500 text-gray-900 rounded-full hover:bg-green-600"
             onClick={handleDepositClick}

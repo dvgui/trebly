@@ -12,6 +12,7 @@ import { useToast } from "@/components/ui/use-toast"
 import TreblyAwards from "@/components/Awards"
 import TrebolIcon from "@/components/ui/logo"
 import WorldcoinIcon from "@/components/ui/wordlcoin"
+import TreblySignIn from "@/components/SignIn2"
 
 const MockUpAwardData = {
   impactFunding: 18,
@@ -47,6 +48,7 @@ export default function Home() {
   const [showDeposit, setShowDeposit] = useState(false)
   const [showWithdraw, setShowWithdraw] = useState(false)
   const [showAwards, setShowAwards] = useState(false)
+  const [isSignedIn, setIsSignedIn] = useState(false)
   const { toast } = useToast()
 
   // Countdoewn to join draw
@@ -84,8 +86,7 @@ export default function Home() {
   }, [dateLeftToJoinDraw, datePrizeDelivery]);
   
   const handleDeposit = async (amount: number) => {
-    // Here you would typically call an API to process the deposit
-    // For this example, we'll just update the balance locally
+    // API process
     return new Promise<void>((resolve) => {
       setTimeout(() => {
         setBalance((prevBalance) => prevBalance + amount)
@@ -94,17 +95,22 @@ export default function Home() {
     })
   }
 
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (amount: number) => {
+    // API process
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        setBalance(0) // Reset balance to 0 after withdrawal
-        toast({
-          title: "Withdrawal Successful",
-          description: "Your funds have been withdrawn.",
-        })
+        setBalance((prevBalance) => prevBalance - amount)
         resolve()
-      }, 1000)
+      }, 1000) // Simulating API call delay
     })
+  }
+
+  const handleSignIn = () => {
+    setIsSignedIn(true)
+  }
+
+  if (!isSignedIn) {
+    return <TreblySignIn onSignIn={handleSignIn} />
   }
 
   if (showDeposit) {
@@ -124,7 +130,7 @@ export default function Home() {
     return (
       <>
         <TreblyWithdraw
-          totalDeposited={balance}
+          balance={balance}
           onWithdraw={handleWithdraw}
           onBack={() => setShowWithdraw(false)}
         />
@@ -188,7 +194,7 @@ export default function Home() {
           <div className="space-y-2 text-center">
             <div className="text-muted-foreground text-white">Total Deposits:</div>
             <div className="text-green-500 text-4xl font-bold">10.000.000 <span className="text-xl">USDC</span></div>
-            <div className="text-muted-foreground text-white">Estimated next prize: 33.300 USDC</div>
+            <div className="text-muted-foreground text-white">Estimated next prize: <strong>33.300 USDC</strong></div>
           </div>
         </CardContent>
 
