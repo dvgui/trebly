@@ -143,7 +143,7 @@ export default function Home() {
         </CardContent>
 
         <CardFooter className="flex justify-between space-x-4">
-          <Button 
+          <Button
             variant="secondary"
             className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
             onClick={() => setShowDeposit(true)}
@@ -151,7 +151,7 @@ export default function Home() {
             <ArrowDown className="h-8 w-8 mb-1" />
             <span>Deposit</span>
           </Button>
-          <Button 
+          <Button
             variant="secondary"
             className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
             onClick={() => setShowWithdraw(true)}
@@ -159,14 +159,14 @@ export default function Home() {
             <ArrowUp className="h-8 w-8 mb-1" />
             <span>Withdraw</span>
           </Button>
-          <Button 
-  variant="secondary"
-  className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
-  onClick={() => setShowAwards(true)}
->
-  <Trophy className="h-8 w-8 mb-1" />
-  <span>Awards</span>
-</Button> 
+          <Button
+            variant="secondary"
+            className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
+            onClick={() => setShowAwards(true)}
+          >
+            <Trophy className="h-8 w-8 mb-1" />
+            <span>Awards</span>
+          </Button>
         </CardFooter>
       </Card>
       <Toaster />
