@@ -45,7 +45,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
       onDeposit(parseFloat(depositAmount))
       setShowSuccess(true)
     }
-  }, [isPaid])
+  }, [isPaid, onDeposit, depositAmount])
   
   if (showSuccess) {
     return <TreblySuccess onContinue={onBack} />
