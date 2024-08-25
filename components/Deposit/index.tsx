@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { use, useEffect, useState } from "react"
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -6,7 +6,7 @@ import { toast } from "@/components/ui/use-toast"
 import TreblySuccess from "../DepositSuccess"
 import TrebolIcon from "../ui/logo"
 import WorldcoinIcon from "../ui/wordlcoin"
-import { Label } from "../ui/label"
+import { usePayment } from "@/hooks/usePayment"
 
 interface TreblyDepositProps {
   balance: number
@@ -16,9 +16,11 @@ interface TreblyDepositProps {
 
 export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepositProps) {
   const [depositAmount, setDepositAmount] = useState("")
-  const [isDepositing, setIsDepositing] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   
+  const poolAddress = "0x56...5a5d"
+  const { sendPayment, isProcessing, isPaid} = usePayment();
+
   const handleMaxClick = () => {
     setDepositAmount(balance.toString())
   }
@@ -34,21 +36,15 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
       return
     }
 
-    setIsDepositing(true)
-    try {
-      await onDeposit(amount)
-      setShowSuccess(true)
-    } catch (error) {
-      toast({
-        title: "Deposit failed",
-        description: "There was an error processing your deposit. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsDepositing(false)
-    }
+    await sendPayment({amount: parseFloat(depositAmount), currency: "WLD", destination: poolAddress})
   }
 
+  useEffect(() => {
+    if (isPaid) {
+      onDeposit(parseFloat(depositAmount))
+      setShowSuccess(true)
+    }
+  }, [isPaid])
   
   if (showSuccess) {
     return <TreblySuccess onContinue={onBack} />
@@ -104,9 +100,9 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
           <Button 
             className="w-full py-6 text-xl bg-[#00FF94] text-gray-900 rounded-full hover:bg-[#00FF94]"
             onClick={handleDepositClick}
-            disabled={isDepositing}
+            disabled={isProcessing}
           >
-            {isDepositing ? "Depositing..." : "Deposit"}
+            {isProcessing ? "Depositing..." : "Deposit"}
           </Button>
         </div>
       </main>
