@@ -34,7 +34,7 @@ export default function WinnerWindow({ isOpen, onClose, onConfirm }: TreblyEmerg
             Congratulations!
           </DialogTitle>
           <DialogDescription className="text-center text-gray-300">
-            You've won the Trebly giveaway!
+            Youve won the Trebly giveaway!
           </DialogDescription>
         </DialogHeader>
 
