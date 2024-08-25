@@ -95,7 +95,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
           </div>
 
           <div className="text-center text-gray-400">
-            Balance: {balance} WLD
+            Your participation: {balance} WLD
           </div>
 
           <Button 

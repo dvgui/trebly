@@ -12,11 +12,10 @@ import TreblyAwards from "@/components/Awards"
 import TrebolIcon from "@/components/ui/logo"
 import WorldcoinIcon from "@/components/ui/wordlcoin"
 import WinnerWindow from "@/components/Winner"
-import { WagmiProvider } from "wagmi"
-import { configWagmi } from './config'
 import { addressConfig, vaultABI } from "./config"
-import { useReadContract } from 'wagmi'
-import { Address } from 'viem';
+import { Address, formatUnits } from 'viem';
+import { useReadContract } from "wagmi"
+import UsdcIcon from "@/components/ui/usdc"
 
 const MockUpAwardData = {
   impactFunding: 18,
@@ -47,12 +46,13 @@ const TimerDisplay = ({ days, hours, minutes, seconds, label }: { days: string, 
 )
 
 export default function Home() {
-  const [walletBalance, setWalletBalance] = useState(433)
-  const [ticketBalance, setTicketBalance] = useState(25)
+  // const [walletBalance, setWalletBalance] = useState(433)
+  const [ticketBalance, setTicketBalance] = useState(0)
   const [showDeposit, setShowDeposit] = useState(false)
   const [showWithdraw, setShowWithdraw] = useState(false)
   const [showAwards, setShowAwards] = useState(false)
   const [showWinnerWindow, setShowWinerWindow] = useState(false) // Always false
+  const [treassuryBalance, setTreassuryBalance] = useState(0) 
 
   // Countdoewn to join draw
   const dateLeftToJoinDraw = new Date("2024-08-27").getTime() 
@@ -62,16 +62,21 @@ export default function Home() {
   const vault = addressConfig.vaultAddress;
   const userAddress: Address = "0x393B6C28EaA8c9Dc71ced9526838a57a5c553723"
   const abi = vaultABI;
-  const result = useReadContract({
-    abi,
-    address: twab,
-    functionName: 'delegateBalanceOf',
-    args: [vault, userAddress],
-  });
-
-  console.log(result);
   
-  const calculateTimeLeft = (targetDate: number) => {
+  const { data, error, isPending } = useReadContract({
+      abi,
+      address: twab,
+      functionName: 'delegateBalanceOf',
+      args: [vault, userAddress],
+  });
+  
+  useEffect(() => {
+    if (data && !isPending) {
+      setTreassuryBalance(parseFloat(formatUnits(data, 6)));
+    }
+  }, [data, isPending, error]);
+
+   const calculateTimeLeft = (targetDate: number) => {
     const difference = targetDate - new Date().getTime();
   
     let timeLeft = { days: "00", hours: "00", minutes: "00", seconds: "00" };
@@ -173,14 +178,14 @@ export default function Home() {
           <CardHeader className="flex flex-col items-center space-y-4 pt-6">
           <TrebolIcon />
             <h1 className="text-3xl font-bold">Trebly</h1>
-            <div className="text-center text-muted-foreground text-white">Deposited:</div>            
+            <div className="text-center text-muted-foreground text-white">Your participation:</div>            
               <Badge variant="secondary" className="text-2xl py-2 px-6">
                 <div className="flex items-center">
                   <WorldcoinIcon className="mr-2" />
                   <span className="ml-2">{ticketBalance} WLD</span>
                 </div>
               </Badge>
-            <div className="text-center text-gray-400">Your balance: {walletBalance}</div>            
+            {/* <div className="text-center text-gray-400">Your balance: {walletBalance}</div>             */}
           </CardHeader>
 
           <CardContent className="space-y-6">
@@ -191,7 +196,7 @@ export default function Home() {
               hours={timeLeftToJoinDraw.hours}
               minutes={timeLeftToJoinDraw.minutes}
               seconds={timeLeftToJoinDraw.seconds}
-              label="DAYS HR MIN"
+              label="DAYS HR MIN SEC"
             />
           </div>
 
@@ -202,14 +207,17 @@ export default function Home() {
               hours={timeLeftToPrizeDelivery.hours}
               minutes={timeLeftToPrizeDelivery.minutes}
               seconds={timeLeftToPrizeDelivery.seconds}
-              label="DAYS HR MIN"
+              label="DAYS HR MIN SEC"
             />
           </div>
 
             <div className="space-y-2 text-center">
               <div className="text-muted-foreground text-white">Total Deposits:</div>
-              <div className="text-[#00FF94] text-4xl font-bold">10.000.000 <span className="text-xl">USDC</span></div>
-              <div className="text-muted-foreground text-white">Estimated next prize: <strong>33.300 USDC</strong></div>
+              <div className="flex items-center justify-center space-x-2">
+                <UsdcIcon className="h-8 w-8" />
+                <div className="text-[#00FF94] text-4xl font-bold">{treassuryBalance}<span className="text-xl"> USDC</span></div>
+              </div>
+              {/* <div className="text-muted-foreground text-white">Estimated next prize: <strong>33.300 USDC</strong></div> */}
             </div>
           </CardContent>
 
