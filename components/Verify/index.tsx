@@ -7,6 +7,7 @@ import {
   ISuccessResult,
 } from "@worldcoin/minikit-js";
 import { useEffect } from "react";
+import { MiniAppPaymentSuccessPayload } from '@worldcoin/minikit-js';
 
 export type VerifyCommandInput = {
   action: string;
@@ -17,7 +18,7 @@ export type VerifyCommandInput = {
 const verifyPayload: VerifyCommandInput = {
   action: "test-action", // This is your action ID from the Developer Portal
   signal: "",
-  verification_level: VerificationLevel.Orb, // Orb | Device
+  verification_level: VerificationLevel.Device, // Orb | Device
 };
 
 const triggerVerify = () => {
@@ -25,6 +26,7 @@ const triggerVerify = () => {
 };
 
 export const VerifyBlock = () => {
+
   useEffect(() => {
     if (!MiniKit.isInstalled()) {
       return;
@@ -36,6 +38,7 @@ export const VerifyBlock = () => {
         if (response.status === "error") {
           return console.log("Error payload", response);
         }
+        console.log(response)
 
         // Verify the proof in the backend
         const verifyResponse = await fetch("/api/verify", {
@@ -53,6 +56,8 @@ export const VerifyBlock = () => {
         // TODO: Handle Success!
         const verifyResponseJson = await verifyResponse.json();
         if (verifyResponseJson.status === 200) {
+          // console.log(verifyRes);
+          window.location.href = "/home"; // Redirect to the home page
           console.log("Verification success!");
         }
       }
@@ -65,9 +70,9 @@ export const VerifyBlock = () => {
 
   return (
     <div>
-      <h1>Verify Block</h1>
-      <button className="bg-[#00FF94] p-4" onClick={triggerVerify}>
-        Test Verify
+      <h1>Verify User</h1>
+      <button className="bg-green-500 p-4" onClick={triggerVerify}>
+        Verify
       </button>
     </div>
   );
