@@ -4,8 +4,13 @@ import "./globals.css";
 import MiniKitProvider from "@/components/minikit-provider";
 import dynamic from "next/dynamic";
 import NextAuthProvider from "@/components/next-auth-provider";
+import { WagmiProvider } from "wagmi";
+import { configWagmi } from './config';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const queryClient = new QueryClient();
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +33,11 @@ export default function RootLayout({
       <NextAuthProvider>
         <ErudaProvider>
           <MiniKitProvider>
-            <body className={inter.className}>{children}</body>
+            <WagmiProvider config={configWagmi}>
+              {/* <QueryClientProvider client={queryClient}> */}
+                <body className={inter.className}>{children}</body>
+              {/* </QueryClientProvider> */}
+            </WagmiProvider>
           </MiniKitProvider>
         </ErudaProvider>
       </NextAuthProvider>

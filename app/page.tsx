@@ -12,6 +12,11 @@ import TreblyAwards from "@/components/Awards"
 import TrebolIcon from "@/components/ui/logo"
 import WorldcoinIcon from "@/components/ui/wordlcoin"
 import WinnerWindow from "@/components/Winner"
+import { WagmiProvider } from "wagmi"
+import { configWagmi } from './config'
+// import { addressConfig, vaultABI } from "./config"
+// import { useReadContract } from 'wagmi'
+// import { Address } from 'viem';
 
 const MockUpAwardData = {
   impactFunding: 18,
@@ -53,6 +58,18 @@ export default function Home() {
   const dateLeftToJoinDraw = new Date("2024-08-27").getTime() 
   const datePrizeDelivery = new Date("2024-08-30").getTime()
 
+  // const twab = addressConfig.twab;
+  // const vault = addressConfig.vaultAddress;
+  // const userAddress: Address = "0x393B6C28EaA8c9Dc71ced9526838a57a5c553723"
+  // const abi = vaultABI;
+  // const result = useReadContract({
+  //   abi,
+  //   address: twab,
+  //   functionName: 'delegateBalanceOf',
+  //   args: [vault, userAddress],
+  // 
+  // console.log(result);
+  
   const calculateTimeLeft = (targetDate: number) => {
     const difference = targetDate - new Date().getTime();
   
