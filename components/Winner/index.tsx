@@ -17,7 +17,7 @@ interface TreblyEmergencyWindowProps {
 }
 
 export default function WinnerWindow({ isOpen, onClose, onConfirm }: TreblyEmergencyWindowProps) {
-  const [donationPercentage, setDonationPercentage] = useState(0)
+  const [donationPercentage, setDonationPercentage] = useState(10)
 
   const handleConfirm = () => {
     onConfirm(donationPercentage)
@@ -50,27 +50,28 @@ export default function WinnerWindow({ isOpen, onClose, onConfirm }: TreblyEmerg
           <div className="space-y-4">
             <div className="relative pt-1 space-y-2">
               <p className="flex space-x-2">
-                <Trophy className="h-5 w-5 text-green-500" />
+                <Trophy className="h-5 w-5 text-[#00FF94]" />
                 <Label htmlFor="slider" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   Donate {donationPercentage}%
                 </Label>
               </p>
+              <p className="text-center text-sm text-gray-300 mt-4">What percentage of your prize would you like to donate?</p>
               <div className="bg-white p-2 rounded-lg shadow-md">
                 <Slider
                   id="donation-slider"
                   min={0}
-                  max={20}
+                  max={21}
                   step={1}
                   value={[donationPercentage]}
                   onValueChange={(value: any) => setDonationPercentage(value[0])}
-                  className="[&_[role=slider]]:bg-green-500"
+                  className="[&_[role=slider]]:bg-[#00FF94]"
                 />
               </div>
             </div>
           </div>
           <Button 
             onClick={handleConfirm}
-            className="w-full mt-4 py-2 text-xl bg-green-500 text-gray-900 rounded-full hover:bg-green-600"
+            className="w-full mt-4 py-2 text-xl bg-[#00FF94] text-gray-900 rounded-full hover:bg-[#00FF94]"
           >
             Confirm
           </Button>

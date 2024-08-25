@@ -57,7 +57,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white p-4">
       <header className="flex items-center mb-8">
-        <Button variant="ghost" size="icon" className="text-green-500" aria-label="Go back" onClick={onBack}>
+        <Button variant="ghost" size="icon" className="text-[#00FF94]" aria-label="Go back" onClick={onBack}>
           <ArrowLeft className="h-6 w-6" />
         </Button>
       </header>
@@ -81,7 +81,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
               type="number"
               value={depositAmount}
               onChange={(e) => setDepositAmount(e.target.value)}
-              className="w-full pl-12 pr-24 py-6 bg-gray-800 border-green-500 rounded-full text-xl"
+              className="w-full pl-12 pr-24 py-6 bg-gray-800 border-[#00FF94] rounded-full text-xl"
               placeholder="0 WLD"
               min="0"
               max={balance}
@@ -89,7 +89,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
             />
             <div className="absolute inset-y-0 right-0 flex items-center">
               <Button 
-                className="h-full px-6 rounded-r-full bg-green-500 text-gray-900 hover:bg-green-600"
+                className="h-full px-6 rounded-r-full bg-[#00FF94] text-gray-900 hover:bg-[#00FF94]"
                 onClick={handleMaxClick}
               >
                 MAX
@@ -102,7 +102,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
           </div>
 
           <Button 
-            className="w-full py-6 text-xl bg-green-500 text-gray-900 rounded-full hover:bg-green-600"
+            className="w-full py-6 text-xl bg-[#00FF94] text-gray-900 rounded-full hover:bg-[#00FF94]"
             onClick={handleDepositClick}
             disabled={isDepositing}
           >

@@ -11,7 +11,6 @@ import TreblyWithdraw from "@/components/Withdraw"
 import TreblyAwards from "@/components/Awards"
 import TrebolIcon from "@/components/ui/logo"
 import WorldcoinIcon from "@/components/ui/wordlcoin"
-import TreblySignIn from "@/components/SignIn2"
 import WinnerWindow from "@/components/Winner"
 
 const MockUpAwardData = {
@@ -30,25 +29,24 @@ const MockUpAwardData = {
 const TimerDisplay = ({ days, hours, minutes, seconds, label }: { days: string, hours: string, minutes: string, seconds: string, label: string }) => (
   <div className="flex flex-col items-center">
     <div className="flex space-x-2 mb-2">
-      <div className="bg-[#293852] text-[#00FF94] rounded p-2 w-12 h-12 flex items-center justify-center text-2xl font-bold">{days}</div>
+      <div className="bg-[#293852] text-[#00FF94] rounded-2xl p-2 w-12 h-12 flex items-center justify-center text-2xl font-bold">{days}</div>
       <div className=" text-2xl font-bold">:</div>
-      <div className="bg-[#293852] text-[#00FF94] rounded p-2 w-12 h-12 flex items-center justify-center text-2xl font-bold">{hours}</div>
+      <div className="bg-[#293852] text-[#00FF94] rounded-2xl p-2 w-12 h-12 flex items-center justify-center text-2xl font-bold">{hours}</div>
       <div className="text-2xl font-bold">:</div>
-      <div className="bg-[#293852] text-[#00FF94] rounded p-2 w-12 h-12 flex items-center justify-center text-2xl font-bold">{minutes}</div>
+      <div className="bg-[#293852] text-[#00FF94] rounded-2xl p-2 w-12 h-12 flex items-center justify-center text-2xl font-bold">{minutes}</div>
       <div className="text-2xl font-bold">:</div>
-      <div className="bg-[#293852] text-[#00FF94] rounded p-2 w-12 h-12 flex items-center justify-center text-2xl font-bold">{seconds}</div>
+      <div className="bg-[#293852] text-[#00FF94] rounded-2xl p-2 w-12 h-12 flex items-center justify-center text-2xl font-bold">{seconds}</div>
     </div>
     <div className="text-muted-foreground text-sm text-white">{label}</div>
   </div>
 )
 
-
 export default function Home() {
-  const [balance, setBalance] = useState(433)
+  const [walletBalance, setWalletBalance] = useState(433)
+  const [ticketBalance, setTicketBalance] = useState(25)
   const [showDeposit, setShowDeposit] = useState(false)
   const [showWithdraw, setShowWithdraw] = useState(false)
   const [showAwards, setShowAwards] = useState(false)
-  const [isSignedIn, setIsSignedIn] = useState(false)
   const [showWinnerWindow, setShowWinerWindow] = useState(false) // Always false
 
   // Countdoewn to join draw
@@ -89,7 +87,7 @@ export default function Home() {
     // API process
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        setBalance((prevBalance) => prevBalance + amount)
+        setTicketBalance((prevBalance) => prevBalance + amount)
         resolve()
       }, 1000) // Simulating API call delay
     })
@@ -99,25 +97,17 @@ export default function Home() {
     // API process
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        setBalance((prevBalance) => prevBalance - amount)
+        setTicketBalance((prevBalance) => prevBalance - amount)
         resolve()
       }, 1000) // Simulating API call delay
     })
-  }
-
-  const handleSignIn = () => {
-    setIsSignedIn(true)
-  }
-
-  if (!isSignedIn) {
-    return <TreblySignIn onSignIn={handleSignIn} />
   }
 
   if (showDeposit) {
     return (
       <>
         <TreblyDeposit
-          balance={balance}
+          balance={ticketBalance}
           onDeposit={handleDeposit}
           onBack={() => setShowDeposit(false)}
         />
@@ -130,7 +120,7 @@ export default function Home() {
     return (
       <>
         <TreblyWithdraw
-          balance={balance}
+          balance={ticketBalance}
           onWithdraw={handleWithdraw}
           onBack={() => setShowWithdraw(false)}
         />
@@ -165,13 +155,14 @@ export default function Home() {
           <CardHeader className="flex flex-col items-center space-y-4 pt-6">
           <TrebolIcon />
             <h1 className="text-3xl font-bold">Trebly</h1>
-            <Badge variant="secondary" className="text-2xl py-2 px-6">
-              <div className="flex items-center">
-                <WorldcoinIcon className="mr-2" />
-                <span className="ml-2">{balance} WLD</span>
-              </div>
-            </Badge>
-            <div className="text-muted-foreground text-white">Your balance</div>            
+            <div className="text-center text-muted-foreground text-white">Deposited:</div>            
+              <Badge variant="secondary" className="text-2xl py-2 px-6">
+                <div className="flex items-center">
+                  <WorldcoinIcon className="mr-2" />
+                  <span className="ml-2">{ticketBalance} WLD</span>
+                </div>
+              </Badge>
+            <div className="text-center text-gray-400">Your balance: {walletBalance}</div>            
           </CardHeader>
 
           <CardContent className="space-y-6">
@@ -199,7 +190,7 @@ export default function Home() {
 
             <div className="space-y-2 text-center">
               <div className="text-muted-foreground text-white">Total Deposits:</div>
-              <div className="text-green-500 text-4xl font-bold">10.000.000 <span className="text-xl">USDC</span></div>
+              <div className="text-[#00FF94] text-4xl font-bold">10.000.000 <span className="text-xl">USDC</span></div>
               <div className="text-muted-foreground text-white">Estimated next prize: <strong>33.300 USDC</strong></div>
             </div>
           </CardContent>
@@ -207,28 +198,30 @@ export default function Home() {
           <CardFooter className="flex justify-between space-x-4">
             <Button 
               variant="secondary"
-              className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
+              className="flex-1 flex flex-col items-center h-auto py-3 bg-[#00FF94] text-gray-900 rounded-2xl hover:bg-[#00FF94]"
               onClick={() => setShowDeposit(true)}
             >
               <ArrowDown className="h-8 w-8 mb-1" />
               <span>Deposit</span>
             </Button>
+            
             <Button 
               variant="secondary"
-              className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
+              className="flex-1 flex flex-col items-center h-auto py-3 bg-[#00FF94] text-gray-900 rounded-2xl hover:bg-[#00FF94]"
               onClick={() => setShowWithdraw(true)}
             >
               <ArrowUp className="h-8 w-8 mb-1" />
               <span>Withdraw</span>
             </Button>
+            
             <Button 
-    variant="secondary"
-    className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
-    onClick={() => setShowAwards(true)}
-  >
-    <Trophy className="h-8 w-8 mb-1" />
-    <span>Awards</span>
-  </Button> 
+              variant="secondary"
+              className="flex-1 flex flex-col items-center h-auto py-3 bg-[#00FF94] text-gray-900 rounded-2xl hover:bg-[#00FF94]"
+              onClick={() => setShowAwards(true)}
+            >
+              <Trophy className="h-8 w-8 mb-1" />
+              <span>Awards</span>
+            </Button> 
           </CardFooter>
         <Toaster />
       </div>

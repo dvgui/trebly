@@ -66,7 +66,7 @@ export const VerifyBlock = () => {
   return (
     <div>
       <h1>Verify Block</h1>
-      <button className="bg-green-500 p-4" onClick={triggerVerify}>
+      <button className="bg-[#00FF94] p-4" onClick={triggerVerify}>
         Test Verify
       </button>
     </div>

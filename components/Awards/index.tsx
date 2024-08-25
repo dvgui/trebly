@@ -42,7 +42,7 @@ export default function TreblyAwards({
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white p-4">
       <header className="flex items-center mb-8">
-        <Button variant="ghost" size="icon" className="text-green-500" aria-label="Go back" onClick={onBack}>
+        <Button variant="ghost" size="icon" className="text-[#00FF94]" aria-label="Go back" onClick={onBack}>
           <ArrowLeft className="h-6 w-6" />
         </Button>
       </header>
@@ -71,9 +71,9 @@ export default function TreblyAwards({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-green-500">Winner</TableHead>
-                  <TableHead className="text-green-500">Date</TableHead>
-                  <TableHead className="text-green-500">Prize</TableHead>
+                  <TableHead className="text-[#00FF94]">Winner</TableHead>
+                  <TableHead className="text-[#00FF94]">Date</TableHead>
+                  <TableHead className="text-[#00FF94]">Prize</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

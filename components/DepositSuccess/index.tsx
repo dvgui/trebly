@@ -16,7 +16,7 @@ export default function TreblyDepositSuccess({ onContinue }: TreblySuccessProps)
         </div>
 
         <div className="flex justify-center">
-          <div className="w-32 h-32 bg-green-500 rounded-lg flex items-center justify-center">
+          <div className="w-32 h-32 bg-[#00FF94] rounded-lg flex items-center justify-center">
             <Check className="w-20 h-20 text-gray-900" />
           </div>
         </div>
@@ -30,7 +30,7 @@ export default function TreblyDepositSuccess({ onContinue }: TreblySuccessProps)
 
         <Button 
           onClick={onContinue}
-          className="w-full py-6 text-xl bg-green-500 text-gray-900 rounded-full hover:bg-green-600"
+          className="w-full py-6 text-xl bg-[#00FF94] text-gray-900 rounded-full hover:bg-[#00FF94]"
         >
           Back to Menu
         </Button>

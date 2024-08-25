@@ -16,7 +16,7 @@ export default function TreblyWithdrawSuccess({ onContinue }: TreblyWithdrawSucc
         </div>
 
         <div className="flex justify-center">
-          <div className="w-24 h-24 bg-green-500 rounded-lg flex items-center justify-center">
+          <div className="w-24 h-24 bg-[#00FF94] rounded-lg flex items-center justify-center">
             <Check className="w-16 h-16 text-gray-900" />
           </div>
         </div>
@@ -30,7 +30,7 @@ export default function TreblyWithdrawSuccess({ onContinue }: TreblyWithdrawSucc
 
         <Button 
           onClick={onContinue}
-          className="w-full py-6 text-xl bg-green-500 text-gray-900 rounded-full hover:bg-green-600"
+          className="w-full py-6 text-xl bg-[#00FF94] text-gray-900 rounded-full hover:bg-[#00FF94]"
         >
           Continue
         </Button>
