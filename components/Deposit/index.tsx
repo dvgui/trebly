@@ -28,7 +28,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
 
   const handleDepositClick = async () => {
     const amount = parseFloat(depositAmount)
-    if (isNaN(amount) || amount <= 0 || amount > balance) {
+    if (isNaN(amount) || amount <= 0) {
       toast({
         title: "Invalid amount",
         description: "Please enter a valid amount to deposit.",

@@ -51,7 +51,7 @@ export default function Home() {
   const [showDeposit, setShowDeposit] = useState(false)
   const [showWithdraw, setShowWithdraw] = useState(false)
   const [showAwards, setShowAwards] = useState(false)
-  const [showWinnerWindow, setShowWinerWindow] = useState(false) // Always false
+  const [showWinnerWindow, setShowWinerWindow] = useState(true) // Always false
   const [treassuryBalance, setTreassuryBalance] = useState(0) 
 
   // Countdoewn to join draw
@@ -182,7 +182,7 @@ export default function Home() {
               <Badge variant="secondary" className="text-2xl py-2 px-6">
                 <div className="flex items-center">
                   <WorldcoinIcon className="mr-2" />
-                  <span className="ml-2">{ticketBalance} WLD</span>
+                  <span className="ml-2">{ticketBalance.toFixed(2)} WLD</span>
                 </div>
               </Badge>
             {/* <div className="text-center text-gray-400">Your balance: {walletBalance}</div>             */}

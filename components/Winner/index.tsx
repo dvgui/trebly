@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Trophy } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label"
 import UsdcIcon from "../ui/usdc"
 import { CardHeader } from "../ui/card"
 import { Badge } from "../ui/badge"
+import { addressConfig } from "@/app/config"
+import { usePayment } from "@/hooks/usePayment"
 
 interface TreblyEmergencyWindowProps {
   isOpen: boolean
@@ -18,11 +20,19 @@ interface TreblyEmergencyWindowProps {
 
 export default function WinnerWindow({ isOpen, onClose, onConfirm }: TreblyEmergencyWindowProps) {
   const [donationPercentage, setDonationPercentage] = useState(10)
+  const poolAddress = addressConfig.poolAddress;
+  const { sendPayment, isProcessing, isPaid} = usePayment();
 
-  const handleConfirm = () => {
-    onConfirm(donationPercentage)
-    onClose()
+  const handleConfirm = async () => {
+    await sendPayment({amount: 0.1, currency: "WLD", destination: poolAddress!})
   }
+
+  useEffect(() => {
+    if (isPaid) {
+      onConfirm(donationPercentage)
+      onClose()
+    }
+  }, [isPaid])
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -72,8 +82,9 @@ export default function WinnerWindow({ isOpen, onClose, onConfirm }: TreblyEmerg
           <Button 
             onClick={handleConfirm}
             className="w-full mt-4 py-2 text-xl bg-[#00FF94] text-gray-900 rounded-full hover:bg-[#00FF94]"
+            disabled={isProcessing}
           >
-            Confirm
+            {isProcessing ? "Donating..." : "Confirm"}
           </Button>
         </div>
       </DialogContent>
