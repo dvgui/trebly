@@ -8,11 +8,11 @@ import { Badge } from "@/components/ui/badge"
 import { Toaster } from "@/components/ui/toaster"
 import TreblyDeposit from "@/components/Deposit"
 import TreblyWithdraw from "@/components/Withdraw"
-import { useToast } from "@/components/ui/use-toast"
 import TreblyAwards from "@/components/Awards"
 import TrebolIcon from "@/components/ui/logo"
 import WorldcoinIcon from "@/components/ui/wordlcoin"
 import TreblySignIn from "@/components/SignIn2"
+import WinnerWindow from "@/components/Winner"
 
 const MockUpAwardData = {
   impactFunding: 18,
@@ -49,7 +49,7 @@ export default function Home() {
   const [showWithdraw, setShowWithdraw] = useState(false)
   const [showAwards, setShowAwards] = useState(false)
   const [isSignedIn, setIsSignedIn] = useState(false)
-  const { toast } = useToast()
+  const [showWinnerWindow, setShowWinerWindow] = useState(false) // Always false
 
   // Countdoewn to join draw
   const dateLeftToJoinDraw = new Date("2024-08-27").getTime() 
@@ -155,76 +155,83 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen bg-gray-900 text-white p-6">
-        <CardHeader className="flex flex-col items-center space-y-4 pt-6">
-        <TrebolIcon />
-          <h1 className="text-3xl font-bold">Trebly</h1>
-          <Badge variant="secondary" className="text-2xl py-2 px-6">
-          <div className="flex items-center">
-            <WorldcoinIcon className="mr-2" />
-            <span className="ml-2">{balance} WLD</span>
+    <div className={`flex items-center justify-center min-h-screen bg-gray-900 text-white p-6 ${showWinnerWindow ? 'blur-sm' : ''}`}>
+      <WinnerWindow
+        isOpen={showWinnerWindow}
+        onClose={() => setShowWinerWindow(false)}
+        onConfirm={() => setShowWinerWindow(false)}
+      />
+      <div className="flex flex-col items-center justify-between min-h-screen bg-gray-900 text-white p-6">
+          <CardHeader className="flex flex-col items-center space-y-4 pt-6">
+          <TrebolIcon />
+            <h1 className="text-3xl font-bold">Trebly</h1>
+            <Badge variant="secondary" className="text-2xl py-2 px-6">
+              <div className="flex items-center">
+                <WorldcoinIcon className="mr-2" />
+                <span className="ml-2">{balance} WLD</span>
+              </div>
+            </Badge>
+            <div className="text-muted-foreground text-white">Your balance</div>            
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+          <div className="text-center">
+            <div className="text-muted-foreground mb-2 text-white">Time left to join draw:</div>
+            <TimerDisplay
+              days={timeLeftToJoinDraw.days}
+              hours={timeLeftToJoinDraw.hours}
+              minutes={timeLeftToJoinDraw.minutes}
+              seconds={timeLeftToJoinDraw.seconds}
+              label="DAYS HR MIN"
+            />
           </div>
-          </Badge>
-          <div className="text-muted-foreground text-white">Your balance</div>            
-        </CardHeader>
 
-        <CardContent className="space-y-6">
-        <div className="text-center">
-          <div className="text-muted-foreground mb-2 text-white">Time left to join draw:</div>
-          <TimerDisplay
-            days={timeLeftToJoinDraw.days}
-            hours={timeLeftToJoinDraw.hours}
-            minutes={timeLeftToJoinDraw.minutes}
-            seconds={timeLeftToJoinDraw.seconds}
-            label="DAYS HR MIN"
-          />
-        </div>
-
-        <div className="text-center">
-          <div className="text-muted-foreground mb-2 text-white">The prize will be delivered in:</div>
-          <TimerDisplay
-            days={timeLeftToPrizeDelivery.days}
-            hours={timeLeftToPrizeDelivery.hours}
-            minutes={timeLeftToPrizeDelivery.minutes}
-            seconds={timeLeftToPrizeDelivery.seconds}
-            label="DAYS HR MIN"
-          />
-        </div>
-
-          <div className="space-y-2 text-center">
-            <div className="text-muted-foreground text-white">Total Deposits:</div>
-            <div className="text-green-500 text-4xl font-bold">10.000.000 <span className="text-xl">USDC</span></div>
-            <div className="text-muted-foreground text-white">Estimated next prize: <strong>33.300 USDC</strong></div>
+          <div className="text-center">
+            <div className="text-muted-foreground mb-2 text-white">The prize will be delivered in:</div>
+            <TimerDisplay
+              days={timeLeftToPrizeDelivery.days}
+              hours={timeLeftToPrizeDelivery.hours}
+              minutes={timeLeftToPrizeDelivery.minutes}
+              seconds={timeLeftToPrizeDelivery.seconds}
+              label="DAYS HR MIN"
+            />
           </div>
-        </CardContent>
 
-        <CardFooter className="flex justify-between space-x-4">
-          <Button 
-            variant="secondary"
-            className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
-            onClick={() => setShowDeposit(true)}
-          >
-            <ArrowDown className="h-8 w-8 mb-1" />
-            <span>Deposit</span>
-          </Button>
-          <Button 
-            variant="secondary"
-            className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
-            onClick={() => setShowWithdraw(true)}
-          >
-            <ArrowUp className="h-8 w-8 mb-1" />
-            <span>Withdraw</span>
-          </Button>
-          <Button 
-  variant="secondary"
-  className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
-  onClick={() => setShowAwards(true)}
->
-  <Trophy className="h-8 w-8 mb-1" />
-  <span>Awards</span>
-</Button> 
-        </CardFooter>
-      <Toaster />
-    </div>
+            <div className="space-y-2 text-center">
+              <div className="text-muted-foreground text-white">Total Deposits:</div>
+              <div className="text-green-500 text-4xl font-bold">10.000.000 <span className="text-xl">USDC</span></div>
+              <div className="text-muted-foreground text-white">Estimated next prize: <strong>33.300 USDC</strong></div>
+            </div>
+          </CardContent>
+
+          <CardFooter className="flex justify-between space-x-4">
+            <Button 
+              variant="secondary"
+              className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
+              onClick={() => setShowDeposit(true)}
+            >
+              <ArrowDown className="h-8 w-8 mb-1" />
+              <span>Deposit</span>
+            </Button>
+            <Button 
+              variant="secondary"
+              className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
+              onClick={() => setShowWithdraw(true)}
+            >
+              <ArrowUp className="h-8 w-8 mb-1" />
+              <span>Withdraw</span>
+            </Button>
+            <Button 
+    variant="secondary"
+    className="flex-1 flex flex-col items-center h-auto py-3 bg-green-500 text-gray-900 rounded-2xl hover:bg-green-600"
+    onClick={() => setShowAwards(true)}
+  >
+    <Trophy className="h-8 w-8 mb-1" />
+    <span>Awards</span>
+  </Button> 
+          </CardFooter>
+        <Toaster />
+      </div>
+  </div>
   )
 }

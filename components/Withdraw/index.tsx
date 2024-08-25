@@ -102,8 +102,9 @@ export default function TreblyWithdraw({ balance, onWithdraw, onBack }: TreblyWi
           <Button 
             className="w-full py-6 text-xl bg-green-500 text-gray-900 rounded-full hover:bg-green-600"
             onClick={handleWithdraw}
+            disabled={isWithdraw}
           >
-            Withdraw
+            {isWithdraw? "Withdrawing..." : "Withdraw"}
           </Button>
         </div>
       </main>

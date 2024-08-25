@@ -7,7 +7,6 @@ import TreblySuccess from "../DepositSuccess"
 import TrebolIcon from "../ui/logo"
 import WorldcoinIcon from "../ui/wordlcoin"
 import { Label } from "../ui/label"
-import { Slider } from "../ui/slider"
 
 interface TreblyDepositProps {
   balance: number
@@ -19,8 +18,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
   const [depositAmount, setDepositAmount] = useState("")
   const [isDepositing, setIsDepositing] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
-  const [donatePercentage, setDonatePercentaje] = useState(0)
-
+  
   const handleMaxClick = () => {
     setDepositAmount(balance.toString())
   }
@@ -103,22 +101,6 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
             Balance: {balance} WLD
           </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="donate" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Donate {donatePercentage}%
-              </Label>
-              <div className="bg-white p-2 rounded-lg shadow-md">
-                <Slider
-                  id="donate"
-                  min={0}
-                  max={20}
-                  step={1}
-                  value={[donatePercentage]}
-                  onValueChange={(value: any) => setDonatePercentaje(value[0])}
-                  className="[&_[role=slider]]:bg-green-500"
-                />
-              </div>
-          </div>
           <Button 
             className="w-full py-6 text-xl bg-green-500 text-gray-900 rounded-full hover:bg-green-600"
             onClick={handleDepositClick}

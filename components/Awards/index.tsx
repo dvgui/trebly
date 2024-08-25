@@ -9,6 +9,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import TrebolIcon from "../ui/logo"
+import { Label } from "@radix-ui/react-label"
+import { Slider } from "../ui/slider"
+import { useState } from "react"
+import { CardHeader, CardTitle } from "../ui/card"
+import { Badge } from "../ui/badge"
+import UsdcIcon from "../ui/usdc"
 
 interface Winner {
   address: string
@@ -31,6 +37,8 @@ export default function TreblyAwards({
   winners,
   onBack
 }: TreblyAwardsProps) {
+  const [donatePercentage, setDonatePercentaje] = useState(0)
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white p-4">
       <header className="flex items-center mb-8">
@@ -46,22 +54,16 @@ export default function TreblyAwards({
         </div>
 
         <div className="w-full max-w-md space-y-6">
-          <h2 className="text-xl font-semibold flex items-center justify-center">
-            Prize distribution <DollarSign className="ml-2 h-5 w-5" />
-          </h2>
-
-          <div className="space-y-2">
-            <p className="flex justify-between">
-              <span className="text-green-500">Impact Funding: {impactFunding}%</span>
-              <Trophy className="h-5 w-5 text-green-500" />
-            </p>
-            <p className="flex justify-between">
-              <span>Contributors: {contributors}%</span>
-              <Users className="h-5 w-5" />
-            </p>
-            <p>Trebly platform: {treblyPlatform}%</p>
-          </div>
-
+          <CardHeader className="flex flex-col items-center space-y-4 pt-6">
+            <CardTitle className="text-2xl font-bold">Prize</CardTitle>
+            <Badge variant="secondary" className="text-2xl py-2 px-6">
+              <div className="flex items-center">
+                <UsdcIcon />
+                <span className="ml-2">5000 USD</span>
+              </div>
+            </Badge>
+          </CardHeader>
+          
           <div>
             <h3 className="text-lg font-semibold mb-2 flex items-center">
               Last winners <Trophy className="ml-2 h-5 w-5 text-yellow-500" />
