@@ -7,7 +7,7 @@ import TreblySuccess from "../DepositSuccess"
 import TrebolIcon from "../ui/logo"
 import WorldcoinIcon from "../ui/wordlcoin"
 import { usePayment } from "@/hooks/usePayment"
-import { config } from "../../app/config"
+import { addressConfig } from "../../app/config"
 
 interface TreblyDepositProps {
   balance: number
@@ -19,7 +19,7 @@ export default function TreblyDeposit({ balance, onDeposit, onBack }: TreblyDepo
   const [depositAmount, setDepositAmount] = useState("")
   const [showSuccess, setShowSuccess] = useState(false)
   
-  const poolAddress = config.poolAddress;
+  const poolAddress = addressConfig.poolAddress;
   const { sendPayment, isProcessing, isPaid} = usePayment();
 
   const handleMaxClick = () => {
